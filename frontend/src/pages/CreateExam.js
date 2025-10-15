@@ -35,7 +35,7 @@ const CreateExam = ({ state, setState, user }) => {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:5000/api/exams", {
+      const res = await fetch("http://localhost:5000/api/exams/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
