@@ -12,11 +12,11 @@ export async function login(role, credentials) {
 }
 
 // Register student with only username and password
-export async function registerUser(username, password) {
+export async function registerUser(name, email, password, department) {
   const res = await fetch(`${BASE_URL}/auth/student/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ name, email, password, department }),
   });
   return res.json();
 }
