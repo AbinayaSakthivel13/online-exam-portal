@@ -123,7 +123,7 @@ const ExamInterface = ({ user }) => {
             <div className="small-muted">{exam.description || "No description"}</div>
           </div>
           <div>
-            <Timer minutes={exam.durationMin} onExpire={onExpire} ticking={!submitted} />
+            <Timer minutes={exam.duration} onExpire={onExpire} ticking={!submitted} />
           </div>
         </div>
 
