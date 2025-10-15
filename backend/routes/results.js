@@ -4,6 +4,6 @@ const { getResults } = require("../controllers/resultController");
 const { authenticate } = require("../middleware/authMiddleware");
 
 // PROTECTED: only admin can get all results
-router.get("/", authenticate("admin"), getResults);
+router.get("/", authenticate(), getResults);
 
 module.exports = router;
