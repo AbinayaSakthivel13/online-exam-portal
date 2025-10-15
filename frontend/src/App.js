@@ -94,10 +94,8 @@ const App = () => {
             />
 
             {/* Admin Routes */}
-            <Route
-              path="/admin/login"
-              element={<AdminLogin setUser={setUser} />}
-            />
+            <Route path="/admin/login" 
+              element={<AdminLogin login={(role, creds) => login(role, creds)} />} />
             <Route
               path="/admin/dashboard"
               element={
