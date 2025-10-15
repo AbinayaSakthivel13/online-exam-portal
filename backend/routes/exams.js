@@ -9,6 +9,6 @@ router.get("/", getExams);
 router.get("/:id", getExamById);
 
 // POST create exam
-router.post("/create", createExam);
+router.post("/", createExam);
 
 module.exports = router;
