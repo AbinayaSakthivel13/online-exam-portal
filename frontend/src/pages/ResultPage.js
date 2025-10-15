@@ -13,7 +13,7 @@ const ResultPage = ({ state }) => {
     );
   }
 
-  const total = result.score; // use score directly
+  const total = result.score || result.marks_obtained;// use score directly
   const max = result.details.reduce((sum, d) => sum + d.marks, 0);
   const percent = Math.round((total / max) * 100);
 
@@ -36,7 +36,7 @@ const ResultPage = ({ state }) => {
       <div className="grid" style={{ marginTop: 16 }}>
         <div className="card" style={{ gridColumn: "1 / -1" }}>
           <h3 style={{ marginTop: 0 }}>Detailed Answers</h3>
-          {result.details.map((d, i) => (
+          {(result.details || []).map((d, i) => (
             <div
               key={d.qId}
               style={{

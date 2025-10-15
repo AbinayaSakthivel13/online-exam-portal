@@ -7,6 +7,13 @@ async function getExams(req, res) {
   res.json(exams);
 }
 
+// GET EXAM BY ID
+async function getExamById(req, res) {
+  const exam = await Exam.findByPk(req.params.id);
+  if (!exam) return res.status(404).json({ message: "Exam not found" });
+  res.json(exam);
+}
+
 // CREATE EXAM
 async function createExam(req, res) {
   const { exam_name, exam_date, duration, total_marks, created_by } = req.body;
@@ -14,4 +21,5 @@ async function createExam(req, res) {
   res.json(exam);
 }
 
-module.exports = { getExams, createExam };
+module.exports = { getExams, createExam, getExamById };
+

@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AdminLogin = ({ login }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const nav = useNavigate();
 
   const submit = () => {
     // ✅ Validate inputs before submitting
-    if (!username.trim() || !password.trim()) {
-      setErr("Please enter both username and password");
+    if (!email.trim() || !password.trim()) {
+      setErr("Please enter both email and password");
       return;
     }
 
-    const ok = login("admin", { username, password });
+    const ok = login("admin", { email, password });
     if (ok) {
       setErr("");
       nav("/admin/dashboard");
@@ -28,15 +28,15 @@ const AdminLogin = ({ login }) => {
       <div className="card">
         <h2 style={{ marginTop: 0 }}>Admin Login</h2>
         <p className="small-muted">
-          Use <strong>admin / admin</strong> as demo.
+          Use <strong>admin@example.com / admin</strong> as demo.
         </p>
 
         <div className="form-row">
           <input
             className="input"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             className="input"

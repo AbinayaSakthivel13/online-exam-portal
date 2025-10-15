@@ -97,7 +97,8 @@ button{font-family:inherit}
 .hero-right img{width:120px;height:120px;object-fit:cover;border-radius:12px}
 
 /* Card grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); }
+
 .card{
   background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   padding:14px;border-radius:12px;border:1px solid var(--glass-border);

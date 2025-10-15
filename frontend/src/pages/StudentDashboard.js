@@ -67,7 +67,7 @@ const StudentDashboard = ({ user }) => {
                   <div className="small-muted">{ex.description || "No description"}</div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <div className="badge">{ex.total_marks} pts</div>
+                  <div className="badge">{ex.totalMarks} pts</div>
                   <div className="small-muted" style={{ fontSize: 12, marginTop: 6 }}>
                     {ex.duration} min
                   </div>

@@ -30,7 +30,16 @@ async function loginAdmin(req, res) {
 // STUDENT REGISTER
 async function registerStudent(req, res) {
   try {
+    console.log("Register request body:", req.body);
+
+    // ✅ First, extract values from req.body
     const { name, email, password, department } = req.body;
+
+    // ✅ Then validate them
+    if (!name || !email || !password || !department) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
     const existing = await Student.findOne({ where: { email } });
     if (existing) return res.status(400).json({ message: "Email already exists" });
 
@@ -40,10 +49,11 @@ async function registerStudent(req, res) {
     const token = generateToken(student.student_id, "student");
     res.json({ token, student });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Registration error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 }
+
 
 // STUDENT LOGIN
 async function loginStudent(req, res) {

@@ -56,7 +56,7 @@ sequelize.authenticate()
     console.log("✅ Database connected successfully");
 
     // Sync models (recommended for first-time setup)
-    sequelize.sync({ alter: false })
+    sequelize.sync({ alter: true })
       .then(() => console.log("✅ Database synced"))
       .catch((err) => console.error("❌ Sync error:", err));
   })

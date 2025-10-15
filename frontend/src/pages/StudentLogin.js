@@ -1,46 +1,53 @@
 import React, { useState } from "react";
-import { login, registerUser } from "../services/api"; // make sure api.js has these functions
+import { login, registerUser } from "../services/api"; // Adjust path if needed
 import { useNavigate } from "react-router-dom";
 
 function StudentLogin({ setUser }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [department, setDepartment] = useState("");
   const [password, setPassword] = useState("");
   const [isRegister, setIsRegister] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (!username || !password) return alert("Enter username and password");
+    if (!email || !password) return alert("Enter email and password");
 
     try {
-      const res = await login("student", { username, password });
-      if (res.token) {
+      const res = await login("student", { email, password });
+      if (res.token && res.student) {
         localStorage.setItem("token", res.token);
-        localStorage.setItem("user", JSON.stringify(res.user));
-        setUser && setUser(res.user);
+        localStorage.setItem("user", JSON.stringify(res.student));
+        setUser && setUser(res.student);
         alert("Login successful!");
-        navigate("/student/dashboard"); // redirect after login
+        navigate("/student/dashboard");
       } else {
         alert(res.message || "Invalid credentials");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Login error:", err);
       alert("Login failed. Try again.");
     }
   };
 
   const handleRegister = async () => {
-    if (!username || !password) return alert("Enter username and password");
+    if (!name || !email || !password || !department) {
+      return alert("Enter all required fields");
+    }
 
     try {
-      const res = await registerUser(username, password);
-      if (res.user) {
-        alert("Registration successful! Please login now.");
-        setIsRegister(false);
+      const res = await registerUser(name, email, password, department);
+      if (res.token && res.student) {
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("user", JSON.stringify(res.student));
+        setUser && setUser(res.student);
+        alert("Registration successful!");
+        navigate("/student/dashboard");
       } else {
         alert(res.message || "Registration failed");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Registration error:", err);
       alert("Registration failed. Try again.");
     }
   };
@@ -48,21 +55,40 @@ function StudentLogin({ setUser }) {
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h2>{isRegister ? "Student Registration" : "Student Login"}</h2>
+
+      {isRegister && (
+        <>
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          /><br /><br />
+          <input
+            type="text"
+            placeholder="Department"
+            value={department}
+            onChange={(e) => setDepartment(e.target.value)}
+          /><br /><br />
+        </>
+      )}
+
       <input
         type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      /><br/><br/>
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      /><br /><br />
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-      /><br/><br/>
+      /><br /><br />
+
       {!isRegister ? (
         <>
-          <button className="btn" onClick={handleLogin}>Login</button><br/><br/>
+          <button className="btn" onClick={handleLogin}>Login</button><br /><br />
           <span
             onClick={() => setIsRegister(true)}
             style={{ color: "blue", cursor: "pointer" }}
@@ -72,7 +98,7 @@ function StudentLogin({ setUser }) {
         </>
       ) : (
         <>
-          <button className="btn" onClick={handleRegister}>Register</button><br/><br/>
+          <button className="btn" onClick={handleRegister}>Register</button><br /><br />
           <span
             onClick={() => setIsRegister(false)}
             style={{ color: "blue", cursor: "pointer" }}

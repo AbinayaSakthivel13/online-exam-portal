@@ -14,46 +14,47 @@ async function submitResponses(req, res) {
 
     let total = 0;
 
-    // Process all responses in parallel
-    await Promise.all(
+    // Build detailed response data
+    const details = await Promise.all(
       answers.map(async (ans) => {
         const question = await Question.findByPk(ans.question_id);
-
         if (!question) {
           throw new Error(`Question ID ${ans.question_id} not found`);
         }
 
-        const correct = question.correct_answer === ans.chosen_answer;
+        const correct = question.answer === ans.chosen_answer;
         if (correct) total += question.marks;
 
+        // Save individual response
         await Response.create({
           student_id,
           exam_id,
           question_id: ans.question_id,
           chosen_answer: ans.chosen_answer,
         });
+
+        return {
+          qId: ans.question_id,
+          selected: ans.chosen_answer,
+          correct: question.answer,
+          correctBool: correct,
+          marks: correct ? question.marks : 0,
+        };
       })
     );
-
-    // Calculate grade based on marks
-    let grade;
-    if (total >= 90) grade = "A";
-    else if (total >= 75) grade = "B";
-    else if (total >= 50) grade = "C";
-    else grade = "D";
 
     // Save result
     const result = await Result.create({
       student_id,
       exam_id,
-      marks_obtained: total,
-      grade,
+      score: total,
+      details,
+      date: new Date(),
     });
 
     res.status(200).json({
       message: "Responses submitted successfully",
       total,
-      grade,
       result,
     });
   } catch (error) {

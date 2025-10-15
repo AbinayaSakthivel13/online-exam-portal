@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { getExams, createExam } = require("../controllers/examController");
-const { authenticate } = require("../middleware/authMiddleware");
+const { getExams, createExam, getExamById } = require("../controllers/examController");
 
-// PUBLIC for viewing exams
+// GET all exams
 router.get("/", getExams);
 
-// PROTECTED: only admin can create
-router.post("/", authenticate("admin"), createExam);
+// GET exam by ID
+router.get("/:id", getExamById);
+
+// POST create exam
+router.post("/create", createExam);
 
 module.exports = router;

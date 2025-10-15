@@ -30,7 +30,7 @@ const ExamInterface = ({ user }) => {
           headers: token ? { Authorization: `Bearer ${token}` } : {}
         });
 
-        // Filter only exam questions and format options
+        // Filter only exam questions
         const examQuestions = qRes.data
           .filter(q => examRes.data.questionIds?.includes(q.question_id))
           .map(q => ({
@@ -47,6 +47,7 @@ const ExamInterface = ({ user }) => {
         setQuestions(examQuestions);
       } catch (err) {
         console.error("Failed to fetch exam/questions:", err);
+        alert("Failed to load exam. Please try again later.");
       }
     };
 
@@ -118,11 +119,11 @@ const ExamInterface = ({ user }) => {
       <div className="exam-left card">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
           <div>
-            <div style={{ fontWeight: 800, fontSize: 18 }}>{exam.exam_name}</div>
+            <div style={{ fontWeight: 800, fontSize: 18 }}>{exam.name}</div>
             <div className="small-muted">{exam.description || "No description"}</div>
           </div>
           <div>
-            <Timer minutes={exam.duration} onExpire={onExpire} ticking={!submitted} />
+            <Timer minutes={exam.durationMin} onExpire={onExpire} ticking={!submitted} />
           </div>
         </div>
 
