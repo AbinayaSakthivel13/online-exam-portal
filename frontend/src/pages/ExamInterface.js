@@ -41,7 +41,7 @@ const ExamInterface = ({ user }) => {
               C: q.option_c,
               D: q.option_d
             },
-            answer: q.correct_answer
+            answer: q.answer
           }));
 
         setQuestions(examQuestions);
